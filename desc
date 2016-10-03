@@ -3,7 +3,7 @@
 Сбор информации о: состоянии CPU, памяти, аптайм и виндоус секьюрити логи
 После сбора инфы отправляет на сервер
 Шифрование собранной инфы перед отправкой на сервер
-
+Реализация для win и linux
 
 2. Серверный скрипт
 Устанавливается на серверную машину
@@ -22,6 +22,7 @@ pycrypto шифрование
 
 DB Config:
 id - Integer, host id
+Operating sysem
 IP_addr - 'string' ip address of host
 User - username for auth
 Passowrd - password for auth
