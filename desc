@@ -18,3 +18,15 @@ paramiko - ssh
 pycrypto шифрование
 
 Добавить юнитесты
+
+
+DB Config:
+id - Integer, host id
+IP_addr - 'string' ip address of host
+User - username for auth
+Passowrd - password for auth
+Mail - string, mail for sending errors
+Last Average CPU - Integer
+Limit CPU - Integer
+Last Average Memory Av - Integer
+Limit Average Memory - Integer
