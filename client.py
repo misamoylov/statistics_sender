@@ -23,6 +23,7 @@ for os in comp.Win32_OperatingSystem():
 #   print "Error in %s log: %s" % (error.Logfile, error.Message)
 #   # send mail to sysadmin etc.
 
+#Не забыть зашифровать ответ!!!!!!!
 def get_host_info(Windows=False):
 
     def get_uptime():
