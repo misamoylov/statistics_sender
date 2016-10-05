@@ -1,5 +1,7 @@
 # coding=utf-8
 import psutil
+import platform
+import socket
 from uptime import uptime
 import os
 from Crypto.Cipher import AES
@@ -20,9 +22,10 @@ class Client(object):
         def get_cpu():
             return str(psutil.cpu_percent())
 
-        host_info = {'host': "",
-                     'uptime': get_uptime(),
-                     'memory': get_mem(),
-                     'cpu': get_cpu(),
+        host_info = {'host': self.cryptor.encrypt(socket.gethostbyname(socket.gethostname())),
+                     'uptime': self.cryptor.encrypt(get_uptime()),
+                     'memory': self.cryptor.encrypt(get_mem()),
+                     'cpu': self.cryptor.encrypt(get_cpu()),
+                     'os': self.cryptor.encrypt(platform.system())
                      }
         return host_info
