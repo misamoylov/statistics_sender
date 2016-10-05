@@ -12,11 +12,28 @@ class Server(object):
         self.cursor = self.conn.cursor()
         self.cryptor = AES.new('key', AES.MODE_CBC, 'IV456')
 
+
     def smtp_sender(self, ):
         pass
 
     def xml2db(self):
         return ET.parse('/home/msamoylov/statistics_sender/configs/user1.xml')
+
+    def updatedb(self):
+        configs = self.get_configs()
+        for config in configs:
+            tree = ET.parse(CONFIG_PATH + config)
+            root = tree.getroot()
+            self.cursor.execute('''INSERT INTO hosts(
+            ip_address, os, user, password, mail, lim_cpu, lim_mem
+            ) VALUES('{}', '{}', '{}', '{}', '{}, {}, {}')'''.format(
+                root.attrib['ip'],
+                root.attrib['os'],
+                root.attrib['user'],
+                root.attrib['password'],
+                root.attrib['mail'],
+                root.attrib['lim_cpu'],
+                root.attrib['lim_mem']))
 
     def get_hosts(self):
         hosts = []
@@ -32,6 +49,8 @@ class Server(object):
 
     def resp2db(self, response):
         pass
+
+    def
 
 a = Server('example.db')
 print(a.xml2db())
