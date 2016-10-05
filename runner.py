@@ -10,6 +10,6 @@ def main():
 
         # Выполнение скрипта на удаленном хосте
         c = pathos.core.copy('client.py', destination='{}:~/hello.py'.format(address))
-        s = pathos.core.execute('python client.py', host=address)
+        s = pathos.core.execute('python client.py', host=host)
         print(s.response())
         #checker for response for address in db (request to db and check limits) and send mail if needed

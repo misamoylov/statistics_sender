@@ -11,7 +11,8 @@ class Client(object):
     def __init__(self):
         self.cryptor = AES.new('key', AES.MODE_CBC, 'IV456')
 
-    def get_host_info(self, Windows=False):
+    def get_host_info(self):
+
 
         def get_uptime():
             return self.cryptor.encrypt(str(uptime()))
@@ -22,10 +23,22 @@ class Client(object):
         def get_cpu():
             return str(psutil.cpu_percent())
 
-        host_info = {'host': self.cryptor.encrypt(socket.gethostbyname(socket.gethostname())),
-                     'uptime': self.cryptor.encrypt(get_uptime()),
-                     'memory': self.cryptor.encrypt(get_mem()),
-                     'cpu': self.cryptor.encrypt(get_cpu()),
-                     'os': self.cryptor.encrypt(platform.system())
-                     }
+        if platform.system() is 'Windows':
+            host_info = {'host': self.cryptor.encrypt(socket.gethostbyname(socket.gethostname())),
+                         'uptime': self.cryptor.encrypt(get_uptime()),
+                         'memory': self.cryptor.encrypt(get_mem()),
+                         'cpu': self.cryptor.encrypt(get_cpu()),
+                         'os': self.cryptor.encrypt(platform.system()),
+                         'logs': ""
+                         }
+        else:
+            host_info = {'host': self.cryptor.encrypt(socket.gethostbyname(socket.gethostname())),
+                         'uptime': self.cryptor.encrypt(get_uptime()),
+                         'memory': self.cryptor.encrypt(get_mem()),
+                         'cpu': self.cryptor.encrypt(get_cpu()),
+                         'os': self.cryptor.encrypt(platform.system())
+                         }
         return host_info
+
+client = Client()
+client.get_host_info()

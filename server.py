@@ -24,6 +24,7 @@ class Server(object):
         for config in configs:
             tree = ET.parse(CONFIG_PATH + config)
             root = tree.getroot()
+            # if windows in dict insert with logs field, else
             self.cursor.execute('''INSERT INTO hosts(
             ip_address, os, user, password, mail, lim_cpu, lim_mem
             ) VALUES('{}', '{}', '{}', '{}', '{}, {}, {}')'''.format(
