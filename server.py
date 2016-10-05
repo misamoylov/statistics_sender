@@ -1,6 +1,7 @@
 import smtplib
 import sqlite3
 import os
+from Crypto.Cipher import AES
 import xml.etree.ElementTree as ET
 
 from settings import CONFIG_PATH
@@ -9,6 +10,7 @@ class Server(object):
     def __init__(self, dbname):
         self.conn = sqlite3.connect(dbname)
         self.cursor = self.conn.cursor()
+        self.cryptor = AES.new('key', AES.MODE_CBC, 'IV456')
 
     def smtp_sender(self, ):
         pass
@@ -16,13 +18,14 @@ class Server(object):
     def xml2db(self):
         return ET.parse('/home/msamoylov/statistics_sender/configs/user1.xml')
 
-    def get_hosts(self, configs):
+    def get_hosts(self):
         hosts = []
+        configs = self.get_configs()
         for config in configs:
             tree = ET.parse(CONFIG_PATH+config)
             root = tree.getroot()
-            return root.attrib['ip']
-
+            hosts.append(root.attrib['ip'])
+        return hosts
 
     def get_configs(self):
         return os.listdir(CONFIG_PATH)

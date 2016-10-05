@@ -1,5 +1,3 @@
-import smtplib
-import win32api
 from Crypto.Cipher import AES
 import base64
 
@@ -15,6 +13,8 @@ def data2xml(data):
     pass
 
 
+def crypt_string():
+    pass
 
 msg_text = 'test some plain text here'.rjust(32)
 secret_key = '1234567890123456' # create new & store somewhere safe
