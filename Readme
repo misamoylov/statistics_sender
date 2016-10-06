@@ -1,6 +1,7 @@
 Installation Procedure
 1. Configure env variable CONFIG_PATH - location of xml files with user configs, it must be full path with ''/'
  on the ending
+2. Configure env variable CLIENT_SCRIPT - location of client script
 2. Initialize DB
 3. Run runner.py
 
