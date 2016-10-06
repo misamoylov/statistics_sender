@@ -1,0 +1,13 @@
+Installation Procedure
+1. Configure CONFIG_PATH - location of xml files with user configs, it must be full path with ''/'
+ on the ending
+
+Database Initialization
+1. Run script db.py
+
+Assumptions
+
+Requirements
+
+Issues
+
