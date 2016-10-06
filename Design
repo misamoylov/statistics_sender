@@ -1,0 +1,24 @@
+-------------------------------------------------------------------------------------------------
+Libraries:
+-------------------------------------------------------------------------------------------------
+ast - conver string to dict
+cryptography.fernet - crypt and decrypt messages
+json - convert string to dict
+os - run scripts
+paramiko - ssh connections for transfering client scirpt to remote machine
+platform - get information about OS on client
+psutil - getting inromation from hosts
+sqlite3 - database creation and storing data
+smtplib - send message about problems on host
+uptime - get machine uptime
+xmltodict - convert xml to dict for simplest processing it to db
+xml.etree.ElementTree as ET - parsing xml
+
+------------------------------------------------------------------------------------------------
+Components
+-------------------------------------------------------------------------------------------------
+client.py - uses for getting information from hosts and encrypt it with fernet
+runner.py - script for running project, uses client.py and server.py
+server.py - communicate with DB and client for parsing data from xml, db, send messages for clients
+            and etc
+settings.py - storing settings for project
