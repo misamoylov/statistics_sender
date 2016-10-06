@@ -58,6 +58,7 @@ def main():
                 srv.send_email(host['client']['@mail'], text)
             ssh.close()
         except Exception as e:
-            print(e)
+            print("Cannot execute client script on remote host {}".format(host['client']['@ip']),
+                  e)
 
 main()
