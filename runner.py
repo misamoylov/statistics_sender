@@ -22,7 +22,7 @@ def main():
         srv.updatedb()
         # Step 2
         try:
-            response = os.system("python D:\Python_Projects\statistics_sender\client.py")
+            # response = os.system("python D:\Python_Projects\statistics_sender\client.py")
             transport = paramiko.Transport((host['client']['@ip'], 22))
             transport.connect(username=host['client']['@username'],
                               password=host['client']['@password'])
