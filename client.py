@@ -2,6 +2,8 @@
 import psutil
 import platform
 import socket
+import smtplib
+
 from uptime import uptime
 from cryptography.fernet import Fernet
 
@@ -13,17 +15,15 @@ class Client(object):
     def __init__(self):
         self.fernet = Fernet(key)
 
-
     def check_windows_security_events(self):
         """ Check windows security events
         :return: str 'yes' or 'no
         """
 
-
     def get_host_info(self):
 
         def get_uptime():
-            return self.fernet.encrypt(str(uptime()))
+            return str(uptime())
 
         def get_mem():
             return str(psutil.virtual_memory().percent)

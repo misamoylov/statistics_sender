@@ -2,6 +2,7 @@
 import os
 import paramiko
 from server import Server
+from client import Client
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -35,12 +36,18 @@ def main():
 
             if response['cpu'] > host['client']['alert'][0]['@limit'].strip('%'):
                 #send message to owner
-                pass
+                text = "cpu: raises limit, yours current cpu load in % {}".format(response['cpu'])
+                srv.send_email(host['client']['@mail'], text)
             elif response['memory'] > host['client']['alert'][0]['@limit'].strip('%'):
-                #send maessage
-                pass
-            elif 'log_message' in response:
-                pass
+                # send message to owner
+                text = "memory: raises limit, yours current available memory in % {}".format(
+                    response['memory'])
+                srv.send_email(host['client']['@mail'], text)
+            elif 'log_message' in response and response['log_message'] == 'yes':
+                # send message to owner
+                text = "You have high priority security events in logs".format(
+                    response['log_message'])
+                srv.send_email(host['client']['@mail'], text)
             ssh.close()
         except:
             pass

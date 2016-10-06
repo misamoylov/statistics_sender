@@ -1,4 +1,22 @@
-Libriries
+-------------------------------------------------------------------------------------------------
+Libraries:
+-------------------------------------------------------------------------------------------------
+sqlite3 - database creation and storing data
+psutil - getting inromation from hosts
+platform - get information about OS on client
+socket - get ip address of remote machine
+uptime - get machine uptime
+cryptography.fernet - crypt and decrypt messages
+xmltodict - convert xml to dict for simplest processing it to db
+os - run scripts
+xml.etree.ElementTree as ET - parsing xml
+paramiko - ssh connections
+smtplib - send message about problems on host
 
-Workflow
-
+------------------------------------------------------------------------------------------------
+Components
+-------------------------------------------------------------------------------------------------
+client.py -
+runner.py - script for running project
+server.py -
+settings.py - storing settings for project

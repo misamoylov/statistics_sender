@@ -6,18 +6,21 @@ from cryptography.fernet import Fernet
 import xml.etree.ElementTree as ET
 
 from settings import CONFIG_PATH
-response = {'host': '127.0.1.1', 'cpu': 'gAAAAABX9jSiPuEGkVKGqi8V7GY0VEFUCOuchv2EOvalOcC98y0P7GrMmdLAKmhZvhErE5LS5ub_7-TttxlSnOAyiqJihxXE9A==', 'os': 'gAAAAABX9jSiFHO9pJyxdhKc8iJ2gHExf4Jf43YhWMwCr0nr0PDYuwrNgxnViWAiZz13YeZVT63snh2Nm9oyQVHprSpQCeQUSw==', 'uptime': 'gAAAAABX9jSiH_X8_UdIIvhOtnbL9xX3i3vn3BdnnGqXXSSN3s6ob7Bz-ItlND2exJgztG2N33fJsP2gj4rGYDMwCyLMnqcNvteS6Nai9ZzMGjP_VdtYvwOH_Tjl_bqBB5jPRwtcw47SQQ9MkEEXI5VuMz3kl0Qj-rK2TyesxF6VX-1QmHI7BvSSKQJSwn8Kof-3YIcIAyHjUBTy_sgJKXAbMlvpc9PE3A==', 'memory': 'gAAAAABX9jSinuQfligXGzNBz0tYy7qzfSkH3Ux80eiNlBX9ZesfVG_UXSg8SDn-VimSMPfy-N67zzedwIm3D2YV-5Lo-Z8Q-w=='}
 
 key = 'cpB2--8hBT7qbXjZW7QQwYolI6g39p96bslIVAMZ7kA='
+sender = 'example@example.com'
+
 
 class Server(object):
     def __init__(self, dbname):
         self.db = sqlite3.connect(dbname)
         self.cursor = self.db.cursor()
         self.fernet = Fernet(key)
+        self.smtp = smtplib.SMTP('smtp.gmail.com', 587)
 
-    def smtp_sender(self, ):
-        pass
+    def send_email(self, reciever, text):
+        message = "Yours computer have problems with {}".format(text)
+        self.smtp.sendmail('my_mail', reciever, message)
 
     def selectall(self):
         self.cursor.execute('select * from hosts')
@@ -67,18 +70,40 @@ class Server(object):
                 conf.append(xmltodict.parse(f.read()))
         return conf
 
-
     def read_response_from_client(self, response):
         """Decrypt response and update db
 
-        :param response:
+
+        :param response: dict with params
         :return:
         """
-        pass
+        if 'log_message' in response:
+            self.cursor.execute(
+                """UPDATE hosts SET av_cpu = ? ,av_mem = ?,
+                 uptime = ?, log_message = ? WHERE ip_address = ? """,
+                (self.fernet.decrypt(response['cpu']),
+                 self.fernet.decrypt(response['memory']),
+                 self.fernet.decrypt(response['uptime']),
+                 self.fernet.decrypt(response['log_message']),
+                 response['host']))
+        elif 'log_message' not in response:
+            self.cursor.execute(
+                """UPDATE hosts SET av_cpu = ? ,av_mem = ?,
+                 uptime = ? WHERE ip_address = ? """,
+                (self.fernet.decrypt(response['cpu']),
+                 self.fernet.decrypt(response['memory']),
+                 self.fernet.decrypt(response['uptime']),
+                 response['host']))
+        else:
+            return "Bad response format"
 
-# a = Server('example.db')
+a = Server('example.db')
 # print(a.xml2db())
 # for c in a.get_configs():
 #     print(c)
-# a.updatedb()
+a.updatedb()
 # print(a.selectall())
+response = {'host': '127.0.1.1', 'cpu': 'gAAAAABX9kj4aDBtpEBLhvlFdxFqwHAbVKtSyfEbObog5MX1lwMz3q1K1xaVFnzU_2S3r6BsVDD-9inr-5CYHZjDhk_m5EIuZw==', 'os': 'gAAAAABX9kj4EI-ITQgUyuAJDdbdm4zNcWIysXbItjZHfpq4PAn8JqNgu1rcmdY4CG_2MY9V_7o0oN1QLV7i1AAcWN66dNmlmg==', 'uptime': 'gAAAAABX9kj4abZ0xAqgYwgUKARYG0natcGnnoMoCGOvOurk2WtgWyggcytUrywtfLcu1cfEA3a0rN-b_kIWGbbtzD3kSyvnhw==', 'memory': 'gAAAAABX9kj4kZL0mRPUcnOopj3Uw2bezZMfdnFfr-JRys9zUo1yCs_LLp-_svidqMFVwHttPwIiKI-ttbTV9BVQnRoCfdFFQw=='}
+
+a.read_response_from_client(response)
+print(a.selectall())
