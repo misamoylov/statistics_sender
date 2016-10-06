@@ -7,21 +7,26 @@ import xml.etree.ElementTree as ET
 from cryptography.fernet import Fernet
 
 from settings import CONFIG_PATH
-
-key = 'cpB2--8hBT7qbXjZW7QQwYolI6g39p96bslIVAMZ7kA='
-sender = 'example@example.com'
+from settings import FERNET_KEY
+from settings import MAIL_LOGIN
+from settings import MAIL_PASSWORD
 
 
 class Server(object):
     def __init__(self, dbname):
         self.db = sqlite3.connect(dbname)
         self.cursor = self.db.cursor()
-        self.fernet = Fernet(key)
+        self.fernet = Fernet(FERNET_KEY)
         self.smtp = smtplib.SMTP('smtp.gmail.com', 587)
+        self.smtp.starttls()
+        self.smtp.login(MAIL_LOGIN, MAIL_PASSWORD)
 
     def send_email(self, reciever, text):
-        message = "Yours computer have problems with {}".format(text)
-        self.smtp.sendmail('my_mail', reciever, message)
+        message = '''From: {}
+         Subject: Yours computer have problems
+
+         Yours computer have problems with {}'''.format(MAIL_LOGIN, text)
+        self.smtp.sendmail(MAIL_LOGIN, reciever, message)
 
     def selectall(self):
         self.cursor.execute('select * from hosts')
@@ -70,6 +75,9 @@ class Server(object):
             with open(CONFIG_PATH+config) as f:
                 conf.append(xmltodict.parse(f.read()))
         return conf
+
+    def decrypt(self, text):
+        return self.fernet.decrypt(text)
 
     def read_response_from_client(self, host, response):
         """Decrypt response and update db

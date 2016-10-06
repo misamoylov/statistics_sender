@@ -2,12 +2,9 @@
 import psutil
 import platform
 
-
 from cryptography.fernet import Fernet
 from uptime import uptime
-
 key = 'cpB2--8hBT7qbXjZW7QQwYolI6g39p96bslIVAMZ7kA='
-
 
 class Client(object):
 
