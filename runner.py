@@ -1,4 +1,5 @@
 # coding=utf-8
+import ast
 import os
 import paramiko
 
@@ -36,7 +37,8 @@ def main():
                         username=host['client']['@username'],
                         password=host['client']['@password'])
         # Step 3
-            response = ssh.exec_command('python /tmp/client.py')[1]
+            stdin, stdout, stderr = ssh.exec_command('python /tmp/client.py')
+            response = dict(ast.literal_eval(stdout.read()))
             srv.read_response_from_client(host['client']['@ip'], response)
             print(response)
 

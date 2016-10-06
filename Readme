@@ -13,6 +13,8 @@ Requirements
 Python 2.7 on server machine and clients machine
 All libraries from Design file must be installed on server and clients machines
 SFTP server on clients machines
+Installition crypto modules for client and servers available by link:
+https://cryptography.io/en/latest/installation/
 
 
 

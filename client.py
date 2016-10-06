@@ -1,5 +1,4 @@
 # coding=utf-8
-import socket
 import psutil
 import platform
 
@@ -32,17 +31,17 @@ class Client(object):
             return str(psutil.cpu_percent())
 
         if platform.system is 'Windows':
-            host_info = {'uptime': self.fernet.encrypt(get_uptime()),
-                         'memory': self.fernet.encrypt(get_mem()),
-                         'cpu': self.fernet.encrypt(get_cpu()),
-                         'os': self.fernet.encrypt(platform.system()),
-                         'log_message': ""
+            host_info = {"uptime": self.fernet.encrypt(get_uptime()),
+                         "memory": self.fernet.encrypt(get_mem()),
+                         "cpu": self.fernet.encrypt(get_cpu()),
+                         "os": self.fernet.encrypt(platform.system()),
+                         "log_message": ""
                          }
         else:
-            host_info = {'uptime': self.fernet.encrypt(get_uptime()),
-                         'memory': self.fernet.encrypt(get_mem()),
-                         'cpu': self.fernet.encrypt(get_cpu()),
-                         'os': self.fernet.encrypt(platform.system())
+            host_info = {"uptime": self.fernet.encrypt(get_uptime()),
+                         "memory": self.fernet.encrypt(get_mem()),
+                         "cpu": self.fernet.encrypt(get_cpu()),
+                         "os": self.fernet.encrypt(platform.system())
                          }
         return host_info
 
