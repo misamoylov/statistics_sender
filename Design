@@ -1,22 +1,23 @@
 -------------------------------------------------------------------------------------------------
 Libraries:
 -------------------------------------------------------------------------------------------------
-sqlite3 - database creation and storing data
-psutil - getting inromation from hosts
+cryptography.fernet - crypt and decrypt messages
+os - run scripts
+paramiko - ssh connections for transfering client scirpt to remote machine
 platform - get information about OS on client
+psutil - getting inromation from hosts
+sqlite3 - database creation and storing data
+smtplib - send message about problems on host
 socket - get ip address of remote machine
 uptime - get machine uptime
-cryptography.fernet - crypt and decrypt messages
 xmltodict - convert xml to dict for simplest processing it to db
-os - run scripts
 xml.etree.ElementTree as ET - parsing xml
-paramiko - ssh connections
-smtplib - send message about problems on host
 
 ------------------------------------------------------------------------------------------------
 Components
 -------------------------------------------------------------------------------------------------
-client.py -
-runner.py - script for running project
-server.py -
+client.py - uses for getting information from hosts and encrypt it with fernet
+runner.py - script for running project, uses client.py and server.py
+server.py - communicate with DB and client for parsing data from xml, db, send messages for clients
+            and etc
 settings.py - storing settings for project

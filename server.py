@@ -1,9 +1,10 @@
+import os
 import smtplib
 import sqlite3
 import xmltodict
-import os
-from cryptography.fernet import Fernet
 import xml.etree.ElementTree as ET
+
+from cryptography.fernet import Fernet
 
 from settings import CONFIG_PATH
 

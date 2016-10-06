@@ -1,8 +1,8 @@
 # coding=utf-8
 import os
 import paramiko
+
 from server import Server
-from client import Client
 
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())

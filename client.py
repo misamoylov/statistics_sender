@@ -1,11 +1,11 @@
 # coding=utf-8
+import socket
 import psutil
 import platform
-import socket
-import smtplib
 
-from uptime import uptime
+
 from cryptography.fernet import Fernet
+from uptime import uptime
 
 key = 'cpB2--8hBT7qbXjZW7QQwYolI6g39p96bslIVAMZ7kA='
 
