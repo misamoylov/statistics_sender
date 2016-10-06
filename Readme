@@ -10,7 +10,8 @@ Database Initialization
 Assumptions
 
 Requirements
-Python 2.7
+Python 2.7 on server machine and clients machine
+All libraries from Design file must be installed on server and clients machines
 SFTP server on clients machines
 
 

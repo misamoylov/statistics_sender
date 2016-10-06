@@ -71,7 +71,7 @@ class Server(object):
                 conf.append(xmltodict.parse(f.read()))
         return conf
 
-    def read_response_from_client(self, response):
+    def read_response_from_client(self, host, response):
         """Decrypt response and update db
 
 
@@ -86,7 +86,7 @@ class Server(object):
                  self.fernet.decrypt(response['memory']),
                  self.fernet.decrypt(response['uptime']),
                  self.fernet.decrypt(response['log_message']),
-                 response['host']))
+                 host))
         elif 'log_message' not in response:
             self.cursor.execute(
                 """UPDATE hosts SET av_cpu = ? ,av_mem = ?,
@@ -94,17 +94,17 @@ class Server(object):
                 (self.fernet.decrypt(response['cpu']),
                  self.fernet.decrypt(response['memory']),
                  self.fernet.decrypt(response['uptime']),
-                 response['host']))
+                 host))
         else:
             return "Bad response format"
 
-a = Server('example.db')
-# print(a.xml2db())
-# for c in a.get_configs():
-#     print(c)
-a.updatedb()
+# a = Server('example.db')
+# # print(a.xml2db())
+# # for c in a.get_configs():
+# #     print(c)
+# a.updatedb()
+# # print(a.selectall())
+# response = {'host': '127.0.1.1', 'cpu': 'gAAAAABX9kj4aDBtpEBLhvlFdxFqwHAbVKtSyfEbObog5MX1lwMz3q1K1xaVFnzU_2S3r6BsVDD-9inr-5CYHZjDhk_m5EIuZw==', 'os': 'gAAAAABX9kj4EI-ITQgUyuAJDdbdm4zNcWIysXbItjZHfpq4PAn8JqNgu1rcmdY4CG_2MY9V_7o0oN1QLV7i1AAcWN66dNmlmg==', 'uptime': 'gAAAAABX9kj4abZ0xAqgYwgUKARYG0natcGnnoMoCGOvOurk2WtgWyggcytUrywtfLcu1cfEA3a0rN-b_kIWGbbtzD3kSyvnhw==', 'memory': 'gAAAAABX9kj4kZL0mRPUcnOopj3Uw2bezZMfdnFfr-JRys9zUo1yCs_LLp-_svidqMFVwHttPwIiKI-ttbTV9BVQnRoCfdFFQw=='}
+#
+# a.read_response_from_client(response)
 # print(a.selectall())
-response = {'host': '127.0.1.1', 'cpu': 'gAAAAABX9kj4aDBtpEBLhvlFdxFqwHAbVKtSyfEbObog5MX1lwMz3q1K1xaVFnzU_2S3r6BsVDD-9inr-5CYHZjDhk_m5EIuZw==', 'os': 'gAAAAABX9kj4EI-ITQgUyuAJDdbdm4zNcWIysXbItjZHfpq4PAn8JqNgu1rcmdY4CG_2MY9V_7o0oN1QLV7i1AAcWN66dNmlmg==', 'uptime': 'gAAAAABX9kj4abZ0xAqgYwgUKARYG0natcGnnoMoCGOvOurk2WtgWyggcytUrywtfLcu1cfEA3a0rN-b_kIWGbbtzD3kSyvnhw==', 'memory': 'gAAAAABX9kj4kZL0mRPUcnOopj3Uw2bezZMfdnFfr-JRys9zUo1yCs_LLp-_svidqMFVwHttPwIiKI-ttbTV9BVQnRoCfdFFQw=='}
-
-a.read_response_from_client(response)
-print(a.selectall())

@@ -19,20 +19,26 @@ def main():
         """
         # Step 1
         srv.updatedb()
-        print(srv.selectall())
         # Step 2
         try:
-            print(os.system("python /home/msamoylov/statistics_sender/client.py"))
+            # print(os.system("python /home/msamoylov/statistics_sender/client.py"))
+            transport = paramiko.Transport((host['client']['@ip'], 22))
+            transport.connect(username=host['client']['@username'],
+                              password=host['client']['@password'])
+            sftp = paramiko.SFTPClient.from_transport(transport)
 
-            # ssh.connect(host['client']['@ip'],
-            #             username=host['client']['@username'],
-            #             password=host['client']['@password'])
-            # sftp = ssh.open_sftp()
-            # sftp.put(os.path.split(os.path.abspath('client.py')), '/tmp/client.py')
-            # sftp.close()
+            remotepath = '/tmp/client.py'
+            localpath = '/home/msamoylov/statistics_sender/client.py'
+
+            sftp.put(localpath, remotepath)
+
+            ssh.connect(host['client']['@ip'],
+                        username=host['client']['@username'],
+                        password=host['client']['@password'])
         # Step 3
-            stdout = ssh.exec_command('python /tmp/client.py')[1]
-            response = {}
+            response = ssh.exec_command('python /tmp/client.py')[1]
+            srv.read_response_from_client(host['client']['@ip'], response)
+            print(response)
 
             if response['cpu'] > host['client']['alert'][0]['@limit'].strip('%'):
                 #send message to owner
@@ -49,7 +55,7 @@ def main():
                     response['log_message'])
                 srv.send_email(host['client']['@mail'], text)
             ssh.close()
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
 main()

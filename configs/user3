@@ -1,4 +1,0 @@
-<client ip='127.0.1.1' port='22' os='linux' username='user' password='password' mail="asa@asda.com">
- <alert type="memory" limit="50%" />
- <alert type="cpu" limit="20%" />
-</client>
