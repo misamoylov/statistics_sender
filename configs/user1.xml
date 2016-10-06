@@ -1,4 +1,4 @@
-<client ip='192.168.122.109' port='22' os='linux' username='root' password='TestRoot1' mail="statsts497@gmail.com">
+<client ip='localhost' port='22' os='Windows' username='root' password='TestRoot1' mail="statsts497@gmail.com">
  <alert type="memory" limit="50%" />
  <alert type="cpu" limit="20%" />
 </client>
