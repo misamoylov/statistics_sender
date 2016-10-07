@@ -8,6 +8,7 @@ from server import Server
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
+
 def main():
     srv = Server('example.db')
     for host in srv.get_configs():
@@ -16,6 +17,7 @@ def main():
         2. Upload client script to remote host , if cannot pass,
          we need to have sftp server on remote machine
         3. Run client script on remote host
+        4. Check response and send messages
 
         """
         # Step 1
@@ -41,7 +43,7 @@ def main():
             response = dict(ast.literal_eval(stdout.read()))
             srv.read_response_from_client(host['client']['@ip'], response)
             print(response)
-
+        #Step 4
             if response['cpu'] > host['client']['alert'][0]['@limit'].strip('%'):
                 #send message to owner
                 text = "cpu: raises limit, yours current cpu load in % {}".format(srv.decrypt(response['cpu']))

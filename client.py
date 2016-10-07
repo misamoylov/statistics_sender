@@ -17,7 +17,7 @@ class Client(object):
         self.logtype = 'System'
 
     def check_windows_security_events(self):
-        """ Check windows security events
+        """ Check windows security events, if in windows logs some security events returns 'yes'
         :return: str 'yes' or 'no
         """
         hand = win32evtlog.OpenEventLog(self.win_server, self.logtype)
@@ -33,6 +33,10 @@ class Client(object):
         return answer
 
     def get_host_info(self):
+        """
+
+        :return: dict, dict with strings with host information: uptime, cpu, available memeory
+        """
 
         def get_uptime():
             return str(uptime())

@@ -22,6 +22,12 @@ class Server(object):
         self.smtp.login(MAIL_LOGIN, MAIL_PASSWORD)
 
     def send_email(self, reciever, text):
+        """
+
+        :param reciever: from wich email send message
+        :param text: message that will be addeded to default text
+        :return:
+        """
         message = '''From: {}
          Subject: Yours computer have problems
 
@@ -29,6 +35,10 @@ class Server(object):
         self.smtp.sendmail(MAIL_LOGIN, reciever, message)
 
     def selectall(self):
+        """
+
+        :return:  Fetches all rows from the table hosts
+        """
         self.cursor.execute('select * from hosts')
         return self.cursor.fetchall()
 
@@ -36,6 +46,8 @@ class Server(object):
         return ET.parse('/home/msamoylov/statistics_sender/configs/user1.xml')
 
     def updatedb(self):
+        """ Update database, get user configs and transfer it to db in table hosts
+        """
         for config in self.get_configs():
             self.cursor.execute('select ip_address from hosts where ip_address = ?', (
                 config['client']['@ip'],))
@@ -53,6 +65,10 @@ class Server(object):
                 self.db.commit()
 
     def get_hosts(self):
+        """
+
+        :return: list of strings with hosts ips
+        """
         hosts = []
         configs = self.get_config_files()
         for config in configs:
@@ -62,6 +78,10 @@ class Server(object):
         return hosts
 
     def get_config_files(self):
+        """
+
+        :return: list of config files in CONFIG_PATH
+        """
         return os.listdir(CONFIG_PATH)
 
     def get_configs(self):
@@ -77,6 +97,11 @@ class Server(object):
         return conf
 
     def decrypt(self, text):
+        """
+
+        :param text: str, encrypted message
+        :return: string: decrypted message
+        """
         return self.fernet.decrypt(text)
 
     def read_response_from_client(self, host, response):
