@@ -46,7 +46,8 @@ def main():
         #Step 4
             if response['cpu'] > host['client']['alert'][0]['@limit'].strip('%'):
                 #send message to owner
-                text = "cpu: raises limit, yours current cpu load in % {}".format(srv.decrypt(response['cpu']))
+                text = "cpu: raises limit, yours current cpu load in % {}".format(
+                    srv.decrypt(response['cpu']))
                 srv.send_email(host['client']['@mail'], text)
             elif response['memory'] > host['client']['alert'][0]['@limit'].strip('%'):
                 # send message to owner

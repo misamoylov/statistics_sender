@@ -130,14 +130,3 @@ class Server(object):
                  host))
         else:
             return "Bad response format"
-
-# a = Server('example.db')
-# # print(a.xml2db())
-# # for c in a.get_configs():
-# #     print(c)
-# a.updatedb()
-# # print(a.selectall())
-# response = {'host': '127.0.1.1', 'cpu': 'gAAAAABX9kj4aDBtpEBLhvlFdxFqwHAbVKtSyfEbObog5MX1lwMz3q1K1xaVFnzU_2S3r6BsVDD-9inr-5CYHZjDhk_m5EIuZw==', 'os': 'gAAAAABX9kj4EI-ITQgUyuAJDdbdm4zNcWIysXbItjZHfpq4PAn8JqNgu1rcmdY4CG_2MY9V_7o0oN1QLV7i1AAcWN66dNmlmg==', 'uptime': 'gAAAAABX9kj4abZ0xAqgYwgUKARYG0natcGnnoMoCGOvOurk2WtgWyggcytUrywtfLcu1cfEA3a0rN-b_kIWGbbtzD3kSyvnhw==', 'memory': 'gAAAAABX9kj4kZL0mRPUcnOopj3Uw2bezZMfdnFfr-JRys9zUo1yCs_LLp-_svidqMFVwHttPwIiKI-ttbTV9BVQnRoCfdFFQw=='}
-#
-# a.read_response_from_client(response)
-# print(a.selectall())
